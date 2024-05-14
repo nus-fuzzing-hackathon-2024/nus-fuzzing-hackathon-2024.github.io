@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Fuzzing Hackathon Status</title>
+    <title>2024 NUS Fuzzing Hackathon</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,10 +24,15 @@
             margin: 5px 0;
             border-bottom: 1px solid #eee;
         }
+        #clock {
+            font-size: 1.5em;
+            color: #333;
+        }
     </style>
 </head>
 <body>
     <h1>Fuzzing Hackathon Real-time Status</h1>
+    <div id="clock"></div>
 
     <div class="section">
         <h2>Fuzzer Building Status</h2>
@@ -110,6 +115,19 @@
 
         // Initial update
         updateStatus();
+
+        // Real-time clock
+        function updateClock() {
+            const now = new Date();
+            const clockDiv = document.getElementById('clock');
+            clockDiv.innerHTML = now.toLocaleTimeString();
+        }
+
+        // Update the clock every second
+        setInterval(updateClock, 1000);
+
+        // Initial clock update
+        updateClock();
     </script>
 </body>
 </html>
