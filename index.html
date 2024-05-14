@@ -64,13 +64,22 @@
             {team: 'Team Gamma', commit: 'Improved performance of fuzzer'}
         ];
 
-        const solvedBugs = [
-            'Bug 1: Null pointer dereference in XYZ module',
-            'Bug 2: Buffer overflow in ABC function',
-            'Bug 3: Use-after-free in DEF handler',
-            'Bug 4: Memory leak in GHI process',
-            // ... up to Bug 40
-        ];
+        const solvedBugs = {
+            'Team Alpha': [
+                'Bug 1: Null pointer dereference in XYZ module',
+                'Bug 5: Use-after-free in ABC function',
+                'Bug 9: Buffer overflow in DEF handler'
+            ],
+            'Team Beta': [
+                'Bug 2: Memory leak in GHI process',
+                'Bug 6: Integer overflow in JKL operation'
+            ],
+            'Team Gamma': [
+                'Bug 3: Race condition in MNO thread',
+                'Bug 4: Stack overflow in PQR function',
+                'Bug 7: Double free in STU component'
+            ]
+        };
 
         function updateFuzzerStatus() {
             const fuzzerStatusDiv = document.getElementById('fuzzer-status');
@@ -84,7 +93,10 @@
 
         function updateSolvedBugs() {
             const solvedBugsDiv = document.getElementById('solved-bugs');
-            solvedBugsDiv.innerHTML = solvedBugs.map(bug => `<div class="bug">${bug}</div>`).join('');
+            solvedBugsDiv.innerHTML = Object.keys(solvedBugs).map(team => `
+                <h3>${team}</h3>
+                ${solvedBugs[team].map(bug => `<div class="bug">${bug}</div>`).join('')}
+            `).join('');
         }
 
         function updateStatus() {
