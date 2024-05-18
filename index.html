@@ -42,7 +42,7 @@
             color: #4a90e2;
             margin-bottom: 15px;
         }
-        .fuzzer-status, .commit-info, .solved-bugs {
+        .fuzzer-status, .commit-info, .solved-bugs, .docker-logs {
             padding: 15px;
             border-radius: 5px;
             background: #f9f9f9;
@@ -76,6 +76,23 @@
         .team .bug:last-child {
             border-bottom: none;
         }
+        .docker-logs {
+            display: none;
+            white-space: pre-wrap;
+            overflow-y: auto;
+            max-height: 300px;
+        }
+        .show-logs-btn {
+            display: block;
+            margin: 10px 0;
+            padding: 10px 20px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -101,6 +118,14 @@
             <h2>Solved Bugs</h2>
             <div id="solved-bugs" class="solved-bugs">
                 <!-- Solved bugs will be listed here -->
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Docker Logs</h2>
+            <button class="show-logs-btn" onclick="toggleDockerLogs()">Show Docker Logs</button>
+            <div id="docker-logs" class="docker-logs">
+                <!-- Docker logs will be displayed here -->
             </div>
         </div>
     </div>
@@ -162,6 +187,580 @@
             updateFuzzerStatus();
             updateCommitInfo();
             updateSolvedBugs();
+        }
+
+        function toggleDockerLogs() {
+            const dockerLogsDiv = document.getElementById('docker-logs');
+            const isVisible = dockerLogsDiv.style.display === 'block';
+            dockerLogsDiv.style.display = isVisible ? 'none' : 'block';
+            if (!isVisible) {
+                fetchDockerLogs();
+            }
+        }
+
+        function fetchDockerLogs() {
+            // Simulating fetching logs from a local text file
+            const dockerLogs = `Team Alpha:
+Sending build context to Docker daemon  32.77kB
+Step 1/10 : FROM python:3.10-slim-bookworm
+ ---> 61b0911887c0
+Step 2/10 : RUN apt update -y
+ ---> Using cache
+ ---> 7a6af9f66be7
+Step 3/10 : RUN apt install -y git pkg-config libcairo-dev gcc
+ ---> Using cache
+ ---> c14def419469
+Step 4/10 : RUN useradd student
+ ---> Using cache
+ ---> ff9ea2cfdf74
+Step 5/10 : WORKDIR /home/student
+ ---> Using cache
+ ---> 9901371d2d10
+Step 6/10 : COPY requirements.txt requirements.txt
+ ---> Using cache
+ ---> aee6b8c74fe0
+Step 7/10 : RUN pip install -r requirements.txt
+ ---> Using cache
+ ---> 88740abe63dd
+Step 8/10 : COPY *.py ./
+ ---> Using cache
+ ---> c73a1792f582
+Step 9/10 : COPY examples ./examples
+ ---> Using cache
+ ---> 8f9574d1653e
+Step 10/10 : ENTRYPOINT /bin/bash
+ ---> Using cache
+ ---> 4901ece25f4e
+Successfully built 4901ece25f4e
+Successfully tagged student-fuzzer:brant_ruan_v0.0.01
+
+        Bootstrapping framework
+        __________________________________________________________________________________________
+
+        [framework] reading configuration values from arguments
+        [framework] updating configuration values
+        [framework][warning] experiment id is not specified, running all experiments
+        [config] use-cache: False
+        [config] use-gpu: False
+        [config] use-container: True
+        [config] secure-hash: False
+        [config] is-debug: False
+        [config] use-purge: False
+        [config] only-analyse: False
+        [config] only-setup: False
+        [config] only-instrument: False
+        [config] only-test: False
+        [config] rebuild-all: False
+        [config] rebuild-base: False
+        [config] compact-results: False
+        [config] dump-patches: False
+        [config] parallel: False
+        [config] has-config-file: True
+        [config] all-cpu-count: 26
+        [config] all-gpu-count: 0
+        [config] runs: 1
+        [config] bug-id-list: []
+        [config] bug-index-list: []
+        [config] skip-index-list: []
+        [config] tool-list: []
+        [config] tool-params: 
+        [config] tool-tag: 
+        [config] special-meta: 
+        [config] directories: {'data': '/data'}
+        [config] task-profile-id-list: ['TP1']
+        [config] container-profile-id-list: ['CP1']
+        [config] use-latest-image: False
+
+====================================================================================================
+
+        Starting Cerberus (Program Repair Framework) 
+====================================================================================================
+
+                [framework] starting processing of tasks
+        [framework] loading benchmark microfuzz
+        [framework] benchmark environment not found for microfuzz-benchmark
+        [framework] building benchmark environment
+                [framework] building docker image microfuzz-benchmark
+        [framework] loading experiment meta-data
+        [framework] loading fuzz tool studentfuzzer
+[framework] configuration has an extra image name
+[framework] configuration has an extra image tag as well, using that
+                [framework] docker image student-fuzzer:brant_ruan_v0.0.01 found locally for studentfuzzer
+        [config] compact_results: False
+        [config] dump_patches: False
+        [config] docker_host: unix:///var/run/docker.sock
+        [config] only_analyse: False
+        [config] only_setup: True
+        [config] only_instrument: False
+        [config] only_test: False
+        [config] rebuild_all: False
+        [config] rebuild_base: False
+        [config] use_cache: False
+        [config] use_container: True
+        [config] use_gpu: False
+        [config] use_purge: False
+        [config] runs: 2
+        [config] experiment_info: {}
+                [framework] checking disk space
+                         total: 915 GiB
+                         used: 44 GiB
+                         free: 823 GiB
+                [framework][WARNING] experiment subject bugs with bug name 1 is not built or is needed to be rebuilt
+                        [framework] preparing/building said experiment
+                [framework] preparing experiment environment
+                [framework] building docker container: 
+                         container image: microfuzz-benchmark
+                         container name: microfuzz-bugs-1
+                        [benchmark][microfuzz] preparing experiment subject
+                        [benchmark][microfuzz] setting up completed successfully
+                        [framework] stopping docker container
+                        [framework] removing docker container
+                [framework] collecting benchmark results
+                         deployed: True
+                         configured: True
+                         built: True
+                         tested: True
+                [framework] preparing image studentfuzzer-microfuzz-bugs-1-brant_ruan_v0.0.01
+                [framework] building docker image studentfuzzer-microfuzz-bugs-1-brant_ruan_v0.0.01
+
+                Experiment #1 - Bug #1 Run #1
+                __________________________________________________________________________________________
+
+                [task profile] Identifier: 6min
+                [task profile] Timeout: 0.1
+                [task profile] Fix-Loc: auto
+                [task profile] Patch-Dir: None
+                [task profile] Test-suite ratio: 1
+                [container profile] Identifier: CP1
+                [container profile] CPU Count: 2
+                [container profile] GPU Count: 0
+                [container profile] RAM Limit: 10g
+                [container profile] Enable Network: False
+                [meta-data] Project: bugs
+                [meta-data] Bug ID: 1
+                [meta-data] Logs directory: /home/jyc/Desktop/fuzzing-comp-assignment/cerberus/output/logs/microfuzz-studentfuzzer-brant_ruan_v0.0.01-bugs-1-6min-
+                    CP1-0-9bf7db64
+                [meta-data] Output directory: /home/jyc/Desktop/fuzzing-comp-assignment/cerberus/output/artifacts/microfuzz-studentfuzzer-
+                    brant_ruan_v0.0.01-bugs-1-6min-CP1-0-9bf7db64
+                [meta-data] Summary directory: /home/jyc/Desktop/fuzzing-comp-assignment/cerberus/summaries
+                [framework] Creating running container with image studentfuzzer-microfuzz-bugs-1-brant_ruan_v0.0.01
+                [framework] building temporary container for log extraction
+                [framework] building docker container: 
+                         container image: studentfuzzer-microfuzz-bugs-1-brant_ruan_v0.0.01
+                         container name: microfuzz-studentfuzzer-brant_ruan_v0.0.01-bugs-1-6min-CP1-0
+                        [framework] stopping docker container
+                        [framework] removing docker container
+                [framework] building main container for experiment
+                [framework] building docker container: 
+                         container image: studentfuzzer-microfuzz-bugs-1-brant_ruan_v0.0.01
+                         container name: microfuzz-studentfuzzer-brant_ruan_v0.0.01-bugs-1-6min-CP1-0
+
+                Experiment #2 - Bug #1 Run #2
+                __________________________________________________________________________________________
+
+                [task profile] Identifier: 6min
+                [task profile] Timeout: 0.1
+                [task profile] Fix-Loc: auto
+                [task profile] Patch-Dir: None
+                [task profile] Test-suite ratio: 1
+                [container profile] Identifier: CP1
+                [container profile] CPU Count: 2
+                [container profile] GPU Count: 0
+                [container profile] RAM Limit: 10g
+                [container profile] Enable Network: False
+                [meta-data] Project: bugs
+                [meta-data] Bug ID: 1
+                [meta-data] Logs directory: /home/jyc/Desktop/fuzzing-comp-assignment/cerberus/output/logs/microfuzz-studentfuzzer-brant_ruan_v0.0.01-bugs-1-6min-
+                    CP1-1-71a7cba1
+                [meta-data] Output directory: /home/jyc/Desktop/fuzzing-comp-assignment/cerberus/output/artifacts/microfuzz-studentfuzzer-
+                    brant_ruan_v0.0.01-bugs-1-6min-CP1-1-71a7cba1
+                [meta-data] Summary directory: /home/jyc/Desktop/fuzzing-comp-assignment/cerberus/summaries
+                [framework] Creating running container with image studentfuzzer-microfuzz-bugs-1-brant_ruan_v0.0.01
+                [framework] building temporary container for log extraction
+                [framework] building docker container: 
+                         container image: studentfuzzer-microfuzz-bugs-1-brant_ruan_v0.0.01
+                         container name: microfuzz-studentfuzzer-brant_ruan_v0.0.01-bugs-1-6min-CP1-1
+                        [framework] stopping docker container
+                        [framework] removing docker container
+                [framework] building main container for experiment
+                [framework] building docker container: 
+                         container image: studentfuzzer-microfuzz-bugs-1-brant_ruan_v0.0.01
+                         container name: microfuzz-studentfuzzer-brant_ruan_v0.0.01-bugs-1-6min-CP1-1
+        [config] compact_results: False
+        [config] dump_patches: False
+        [config] docker_host: unix:///var/run/docker.sock
+        [config] only_analyse: False
+        [config] only_setup: True
+        [config] only_instrument: False
+        [config] only_test: False
+        [config] rebuild_all: False
+        [config] rebuild_base: False
+        [config] use_cache: False
+        [config] use_container: True
+        [config] use_gpu: False
+        [config] use_purge: False
+        [config] runs: 2
+        [config] experiment_info: {}
+                [framework] checking disk space
+                         total: 915 GiB
+                         used: 44 GiB
+                         free: 823 GiB
+                [framework][WARNING] experiment subject bugs with bug name 2 is not built or is needed to be rebuilt
+                        [framework] preparing/building said experiment
+                [framework] preparing experiment environment
+                [framework] building docker container: 
+                         container image: microfuzz-benchmark
+                         container name: microfuzz-bugs-2
+                        [benchmark][microfuzz] preparing experiment subject
+                        [benchmark][microfuzz] setting up completed successfully
+                        [framework] stopping docker container
+                        [framework] removing docker container
+                [framework] collecting benchmark results
+                         deployed: True
+                         configured: True
+                         built: True
+                         tested: True
+                [framework] preparing image studentfuzzer-microfuzz-bugs-2-brant_ruan_v0.0.01
+                [framework] building docker image studentfuzzer-microfuzz-bugs-2-brant_ruan_v0.0.01
+
+                Experiment #2 - Bug #2 Run #1
+                __________________________________________________________________________________________
+
+                [task profile] Identifier: 6min
+                [task profile] Timeout: 0.1
+                [task profile] Fix-Loc: auto
+                [task profile] Patch-Dir: None
+                [task profile] Test-suite ratio: 1
+                [container profile] Identifier: CP1
+                [container profile] CPU Count: 2
+                [container profile] GPU Count: 0
+                [container profile] RAM Limit: 10g
+                [container profile] Enable Network: False
+                [meta-data] Project: bugs
+                [meta-data] Bug ID: 2
+                [meta-data] Logs directory: /home/jyc/Desktop/fuzzing-comp-assignment/cerberus/output/logs/microfuzz-studentfuzzer-brant_ruan_v0.0.01-bugs-2-6min-
+                    CP1-0-67ed8c9a
+                [meta-data] Output directory: /home/jyc/Desktop/fuzzing-comp-assignment/cerberus/output/artifacts/microfuzz-studentfuzzer-
+                    brant_ruan_v0.0.01-bugs-2-6min-CP1-0-67ed8c9a
+                [meta-data] Summary directory: /home/jyc/Desktop/fuzzing-comp-assignment/cerberus/summaries
+                [framework] Creating running container with image studentfuzzer-microfuzz-bugs-2-brant_ruan_v0.0.01
+                [framework] building temporary container for log extraction
+                [framework] building docker container: 
+                         container image: studentfuzzer-microfuzz-bugs-2-brant_ruan_v0.0.01
+                         container name: microfuzz-studentfuzzer-brant_ruan_v0.0.01-bugs-2-6min-CP1-0
+                        [framework] stopping docker container
+                        [framework] removing docker container
+                [framework] building main container for experiment
+                [framework] building docker container: 
+                         container image: studentfuzzer-microfuzz-bugs-2-brant_ruan_v0.0.01
+                         container name: microfuzz-studentfuzzer-brant_ruan_v0.0.01-bugs-2-6min-CP1-0
+
+                Experiment #3 - Bug #2 Run #2
+                __________________________________________________________________________________________
+
+                [task profile] Identifier: 6min
+                [task profile] Timeout: 0.1
+                [task profile] Fix-Loc: auto
+                [task profile] Patch-Dir: None
+                [task profile] Test-suite ratio: 1
+                [container profile] Identifier: CP1
+                [container profile] CPU Count: 2
+                [container profile] GPU Count: 0
+                [container profile] RAM Limit: 10g
+                [container profile] Enable Network: False
+                [meta-data] Project: bugs
+                [meta-data] Bug ID: 2
+                [meta-data] Logs directory: /home/jyc/Desktop/fuzzing-comp-assignment/cerberus/output/logs/microfuzz-studentfuzzer-brant_ruan_v0.0.01-bugs-2-6min-
+                    CP1-1-0676c874
+                [meta-data] Output directory: /home/jyc/Desktop/fuzzing-comp-assignment/cerberus/output/artifacts/microfuzz-studentfuzzer-
+                    brant_ruan_v0.0.01-bugs-2-6min-CP1-1-0676c874
+                [meta-data] Summary directory: /home/jyc/Desktop/fuzzing-comp-assignment/cerberus/summaries
+                [framework] Creating running container with image studentfuzzer-microfuzz-bugs-2-brant_ruan_v0.0.01
+                [framework] building temporary container for log extraction
+                [framework] building docker container: 
+                         container image: studentfuzzer-microfuzz-bugs-2-brant_ruan_v0.0.01
+                         container name: microfuzz-studentfuzzer-brant_ruan_v0.0.01-bugs-2-6min-CP1-1
+                        [framework] stopping docker container
+                        [framework] removing docker container
+                [framework] building main container for experiment
+                [framework] building docker container: 
+                         container image: studentfuzzer-microfuzz-bugs-2-brant_ruan_v0.0.01
+                         container name: microfuzz-studentfuzzer-brant_ruan_v0.0.01-bugs-2-6min-CP1-1
+        [config] compact_results: False
+        [config] dump_patches: False
+        [config] docker_host: unix:///var/run/docker.sock
+        [config] only_analyse: False
+        [config] only_setup: True
+        [config] only_instrument: False
+        [config] only_test: False
+        [config] rebuild_all: False
+        [config] rebuild_base: False
+        [config] use_cache: False
+        [config] use_container: True
+        [config] use_gpu: False
+        [config] use_purge: False
+        [config] runs: 2
+        [config] experiment_info: {}
+                [framework] checking disk space
+                         total: 915 GiB
+                         used: 44 GiB
+                         free: 823 GiB
+                [framework][WARNING] experiment subject bugs with bug name 3 is not built or is needed to be rebuilt
+                        [framework] preparing/building said experiment
+                [framework] preparing experiment environment
+                [framework] building docker container: 
+                         container image: microfuzz-benchmark
+                         container name: microfuzz-bugs-3
+                        [benchmark][microfuzz] preparing experiment subject
+                        [benchmark][microfuzz] setting up completed successfully
+                        [framework] stopping docker container
+                        [framework] removing docker container
+                [framework] collecting benchmark results
+                         deployed: True
+                         configured: True
+                         built: True
+                         tested: True
+                [framework] preparing image studentfuzzer-microfuzz-bugs-3-brant_ruan_v0.0.01
+                [framework] building docker image studentfuzzer-microfuzz-bugs-3-brant_ruan_v0.0.01
+
+                Experiment #3 - Bug #3 Run #1
+                __________________________________________________________________________________________
+
+                [task profile] Identifier: 6min
+                [task profile] Timeout: 0.1
+                [task profile] Fix-Loc: auto
+                [task profile] Patch-Dir: None
+                [task profile] Test-suite ratio: 1
+                [container profile] Identifier: CP1
+                [container profile] CPU Count: 2
+                [container profile] GPU Count: 0
+                [container profile] RAM Limit: 10g
+                [container profile] Enable Network: False
+                [meta-data] Project: bugs
+                [meta-data] Bug ID: 3
+                [meta-data] Logs directory: /home/jyc/Desktop/fuzzing-comp-assignment/cerberus/output/logs/microfuzz-studentfuzzer-brant_ruan_v0.0.01-bugs-3-6min-
+                    CP1-0-829f911a
+                [meta-data] Output directory: /home/jyc/Desktop/fuzzing-comp-assignment/cerberus/output/artifacts/microfuzz-studentfuzzer-
+                    brant_ruan_v0.0.01-bugs-3-6min-CP1-0-829f911a
+                [meta-data] Summary directory: /home/jyc/Desktop/fuzzing-comp-assignment/cerberus/summaries
+                [framework] Creating running container with image studentfuzzer-microfuzz-bugs-3-brant_ruan_v0.0.01
+                [framework] building temporary container for log extraction
+                [framework] building docker container: 
+                         container image: studentfuzzer-microfuzz-bugs-3-brant_ruan_v0.0.01
+                         container name: microfuzz-studentfuzzer-brant_ruan_v0.0.01-bugs-3-6min-CP1-0
+                        [framework] stopping docker container
+                        [framework] removing docker container
+                [framework] building main container for experiment
+                [framework] building docker container: 
+                         container image: studentfuzzer-microfuzz-bugs-3-brant_ruan_v0.0.01
+                         container name: microfuzz-studentfuzzer-brant_ruan_v0.0.01-bugs-3-6min-CP1-0
+
+                Experiment #4 - Bug #3 Run #2
+                __________________________________________________________________________________________
+
+                [task profile] Identifier: 6min
+                [task profile] Timeout: 0.1
+                [task profile] Fix-Loc: auto
+                [task profile] Patch-Dir: None
+                [task profile] Test-suite ratio: 1
+                [container profile] Identifier: CP1
+                [container profile] CPU Count: 2
+                [container profile] GPU Count: 0
+                [container profile] RAM Limit: 10g
+                [container profile] Enable Network: False
+                [meta-data] Project: bugs
+                [meta-data] Bug ID: 3
+                [meta-data] Logs directory: /home/jyc/Desktop/fuzzing-comp-assignment/cerberus/output/logs/microfuzz-studentfuzzer-brant_ruan_v0.0.01-bugs-3-6min-
+                    CP1-1-3fe8b96b
+                [meta-data] Output directory: /home/jyc/Desktop/fuzzing-comp-assignment/cerberus/output/artifacts/microfuzz-studentfuzzer-
+                    brant_ruan_v0.0.01-bugs-3-6min-CP1-1-3fe8b96b
+                [meta-data] Summary directory: /home/jyc/Desktop/fuzzing-comp-assignment/cerberus/summaries
+                [framework] Creating running container with image studentfuzzer-microfuzz-bugs-3-brant_ruan_v0.0.01
+                [framework] building temporary container for log extraction
+                [framework] building docker container: 
+                         container image: studentfuzzer-microfuzz-bugs-3-brant_ruan_v0.0.01
+                         container name: microfuzz-studentfuzzer-brant_ruan_v0.0.01-bugs-3-6min-CP1-1
+                        [framework] stopping docker container
+                        [framework] removing docker container
+                [framework] building main container for experiment
+                [framework] building docker container: 
+                         container image: studentfuzzer-microfuzz-bugs-3-brant_ruan_v0.0.01
+                         container name: microfuzz-studentfuzzer-brant_ruan_v0.0.01-bugs-3-6min-CP1-1
+        [config] compact_results: False
+        [config] dump_patches: False
+        [config] docker_host: unix:///var/run/docker.sock
+        [config] only_analyse: False
+        [config] only_setup: True
+        [config] only_instrument: False
+        [config] only_test: False
+        [config] rebuild_all: False
+        [config] rebuild_base: False
+        [config] use_cache: False
+        [config] use_container: True
+        [config] use_gpu: False
+        [config] use_purge: False
+        [config] runs: 2
+        [config] experiment_info: {}
+                [framework] checking disk space
+                         total: 915 GiB
+                         used: 44 GiB
+                         free: 823 GiB
+                [framework][WARNING] experiment subject bugs with bug name 4 is not built or is needed to be rebuilt
+                        [framework] preparing/building said experiment
+                [framework] preparing experiment environment
+                [framework] building docker container: 
+                         container image: microfuzz-benchmark
+                         container name: microfuzz-bugs-4
+                        [benchmark][microfuzz] preparing experiment subject
+                        [benchmark][microfuzz] setting up completed successfully
+                        [framework] stopping docker container
+                        [framework] removing docker container
+                [framework] collecting benchmark results
+                         deployed: True
+                         configured: True
+                         built: True
+                         tested: True
+                [framework] preparing image studentfuzzer-microfuzz-bugs-4-brant_ruan_v0.0.01
+                [framework] building docker image studentfuzzer-microfuzz-bugs-4-brant_ruan_v0.0.01
+
+                Experiment #4 - Bug #4 Run #1
+                __________________________________________________________________________________________
+
+                [task profile] Identifier: 6min
+                [task profile] Timeout: 0.1
+                [task profile] Fix-Loc: auto
+                [task profile] Patch-Dir: None
+                [task profile] Test-suite ratio: 1
+                [container profile] Identifier: CP1
+                [container profile] CPU Count: 2
+                [container profile] GPU Count: 0
+                [container profile] RAM Limit: 10g
+                [container profile] Enable Network: False
+                [meta-data] Project: bugs
+                [meta-data] Bug ID: 4
+                [meta-data] Logs directory: /home/jyc/Desktop/fuzzing-comp-assignment/cerberus/output/logs/microfuzz-studentfuzzer-brant_ruan_v0.0.01-bugs-4-6min-
+                    CP1-0-1a4aabab
+                [meta-data] Output directory: /home/jyc/Desktop/fuzzing-comp-assignment/cerberus/output/artifacts/microfuzz-studentfuzzer-
+                    brant_ruan_v0.0.01-bugs-4-6min-CP1-0-1a4aabab
+                [meta-data] Summary directory: /home/jyc/Desktop/fuzzing-comp-assignment/cerberus/summaries
+                [framework] Creating running container with image studentfuzzer-microfuzz-bugs-4-brant_ruan_v0.0.01
+                [framework] building temporary container for log extraction
+                [framework] building docker container: 
+                         container image: studentfuzzer-microfuzz-bugs-4-brant_ruan_v0.0.01
+                         container name: microfuzz-studentfuzzer-brant_ruan_v0.0.01-bugs-4-6min-CP1-0
+                        [framework] stopping docker container
+                        [framework] removing docker container
+                [framework] building main container for experiment
+                [framework] building docker container: 
+                         container image: studentfuzzer-microfuzz-bugs-4-brant_ruan_v0.0.01
+                         container name: microfuzz-studentfuzzer-brant_ruan_v0.0.01-bugs-4-6min-CP1-0
+
+                Experiment #5 - Bug #4 Run #2
+                __________________________________________________________________________________________
+
+                [task profile] Identifier: 6min
+                [task profile] Timeout: 0.1
+                [task profile] Fix-Loc: auto
+                [task profile] Patch-Dir: None
+                [task profile] Test-suite ratio: 1
+                [container profile] Identifier: CP1
+                [container profile] CPU Count: 2
+                [container profile] GPU Count: 0
+                [container profile] RAM Limit: 10g
+                [container profile] Enable Network: False
+                [meta-data] Project: bugs
+                [meta-data] Bug ID: 4
+                [meta-data] Logs directory: /home/jyc/Desktop/fuzzing-comp-assignment/cerberus/output/logs/microfuzz-studentfuzzer-brant_ruan_v0.0.01-bugs-4-6min-
+                    CP1-1-47d860b8
+                [meta-data] Output directory: /home/jyc/Desktop/fuzzing-comp-assignment/cerberus/output/artifacts/microfuzz-studentfuzzer-
+                    brant_ruan_v0.0.01-bugs-4-6min-CP1-1-47d860b8
+                [meta-data] Summary directory: /home/jyc/Desktop/fuzzing-comp-assignment/cerberus/summaries
+                [framework] Creating running container with image studentfuzzer-microfuzz-bugs-4-brant_ruan_v0.0.01
+                [framework] building temporary container for log extraction
+                [framework] building docker container: 
+                         container image: studentfuzzer-microfuzz-bugs-4-brant_ruan_v0.0.01
+                         container name: microfuzz-studentfuzzer-brant_ruan_v0.0.01-bugs-4-6min-CP1-1
+                        [framework] stopping docker container
+                        [framework] removing docker container
+                [framework] building main container for experiment
+                [framework] building docker container: 
+                         container image: studentfuzzer-microfuzz-bugs-4-brant_ruan_v0.0.01
+                         container name: microfuzz-studentfuzzer-brant_ruan_v0.0.01-bugs-4-6min-CP1-1
+
+Run time statistics:
+-----------------------
+
+Experiment Count: 0
+
+ Cerberus finished successfully after 1.228 minutes
+
+
+        Bootstrapping framework
+        __________________________________________________________________________________________
+
+        [framework] reading configuration values from arguments
+        [framework] updating configuration values
+        [framework][warning] experiment id is not specified, running all experiments
+        [config] use-cache: False
+        [config] use-gpu: False
+        [config] use-container: True
+        [config] secure-hash: False
+        [config] is-debug: False
+        [config] use-purge: False
+        [config] only-analyse: False
+        [config] only-setup: False
+        [config] only-instrument: False
+        [config] only-test: False
+        [config] rebuild-all: False
+        [config] rebuild-base: False
+        [config] compact-results: False
+        [config] dump-patches: False
+        [config] parallel: False
+        [config] has-config-file: True
+        [config] all-cpu-count: 26
+        [config] all-gpu-count: 0
+        [config] runs: 1
+        [config] bug-id-list: []
+        [config] bug-index-list: []
+        [config] skip-index-list: []
+        [config] tool-list: []
+        [config] tool-params: 
+        [config] tool-tag: 
+        [config] special-meta: 
+        [config] directories: {'data': '/data'}
+        [config] task-profile-id-list: ['TP1']
+        [config] container-profile-id-list: ['CP1']
+        [config] use-latest-image: False
+
+====================================================================================================
+
+        Starting Cerberus (Program Repair Framework) 
+====================================================================================================
+
+Task None failed
+Parallel mode is currently supported only for versions 3.10+
+Runtime Error
+Error. Exiting...
+
+Run time statistics:
+-----------------------
+
+Experiment Count: 0
+
+ Cerberus exited with an error after 0.000 minutes
+
+Team Beta:
+Docker log line 1
+Docker log line 2
+Docker log line 3
+
+Team Gamma:
+Docker log line 1
+Docker log line 2
+Docker log line 3
+`;
+            const dockerLogsDiv = document.getElementById('docker-logs');
+            dockerLogsDiv.innerHTML = dockerLogs;
         }
 
         // Simulate real-time updates
