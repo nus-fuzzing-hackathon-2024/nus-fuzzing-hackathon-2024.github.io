@@ -42,7 +42,7 @@
             color: #4a90e2;
             margin-bottom: 15px;
         }
-        .fuzzer-status, .commit-info, .solved-bugs, .docker-logs {
+        .fuzzer-status {
             padding: 15px;
             border-radius: 5px;
             background: #f9f9f9;
@@ -101,9 +101,9 @@
         <div id="clock"></div>
 
         <div class="section">
-            <h2>Fuzzer Building Status</h2>
+            <h2>Fuzzer Building Status & Docker Logs</h2>
             <div id="fuzzer-status" class="fuzzer-status">
-                <!-- Fuzzer status will be updated here -->
+                <!-- Fuzzer status and Docker logs will be updated here -->
             </div>
         </div>
 
@@ -118,13 +118,6 @@
             <h2>Solved Bugs</h2>
             <div id="solved-bugs" class="solved-bugs">
                 <!-- Solved bugs will be listed here -->
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>Docker Logs</h2>
-            <div id="docker-logs" class="docker-logs">
-                <!-- Docker logs will be displayed here -->
             </div>
         </div>
     </div>
@@ -169,8 +162,11 @@
         function updateFuzzerStatus() {
             const fuzzerStatusDiv = document.getElementById('fuzzer-status');
             fuzzerStatusDiv.innerHTML = fuzzerStatus.map(status => `
-                <p><strong>${status.team}:</strong> ${status.status}</p>
-                <button class="show-logs-btn" data-team="${status.team}">Show ${status.team} Logs</button>
+                <div class="team">
+                    <p><strong>${status.team}:</strong> ${status.status}</p>
+                    <button class="show-logs-btn" data-team="${status.team}">Show ${status.team} Logs</button>
+                    <div class="docker-logs" id="${status.team}-logs"></div>
+                </div>
             `).join('');
 
             // Add event listeners to the buttons
@@ -203,9 +199,9 @@
         }
 
         function showDockerLogs(team) {
-            const dockerLogsDiv = document.getElementById('docker-logs');
-            dockerLogsDiv.innerHTML = `<h3>${team} Docker Logs</h3><pre>${dockerLogs[team]}</pre>`;
-            dockerLogsDiv.style.display = 'block';
+            const logsDiv = document.getElementById(`${team}-logs`);
+            logsDiv.innerHTML = `<h3>${team} Docker Logs</h3><pre>${dockerLogs[team]}</pre>`;
+            logsDiv.style.display = 'block';
         }
 
         // Simulate real-time updates
