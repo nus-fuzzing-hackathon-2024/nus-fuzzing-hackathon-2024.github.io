@@ -123,7 +123,6 @@
 
         <div class="section">
             <h2>Docker Logs</h2>
-            <button class="show-logs-btn" onclick="toggleDockerLogs()">Show Docker Logs</button>
             <div id="docker-logs" class="docker-logs">
                 <!-- Docker logs will be displayed here -->
             </div>
@@ -161,47 +160,9 @@
             ]
         };
 
-        function updateFuzzerStatus() {
-            const fuzzerStatusDiv = document.getElementById('fuzzer-status');
-            fuzzerStatusDiv.innerHTML = fuzzerStatus.map(status => `<p><strong>${status.team}:</strong> ${status.status}</p>`).join('');
-        }
-
-        function updateCommitInfo() {
-            const commitInfoDiv = document.getElementById('commit-info');
-            commitInfoDiv.innerHTML = commitInfo.map(commit => `<p><strong>${commit.team}:</strong> ${commit.commit}</p>`).join('');
-        }
-
-        function updateSolvedBugs() {
-            const solvedBugsDiv = document.getElementById('solved-bugs');
-            solvedBugsDiv.innerHTML = Object.keys(solvedBugs).map(team => `
-                <div class="team">
-                    <h3>${team}</h3>
-                    <div class="bugs">
-                        ${solvedBugs[team].map(bug => `<div class="bug">${bug}</div>`).join('')}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function updateStatus() {
-            updateFuzzerStatus();
-            updateCommitInfo();
-            updateSolvedBugs();
-        }
-
-        function toggleDockerLogs() {
-            const dockerLogsDiv = document.getElementById('docker-logs');
-            const isVisible = dockerLogsDiv.style.display === 'block';
-            dockerLogsDiv.style.display = isVisible ? 'none' : 'block';
-            if (!isVisible) {
-                fetchDockerLogs();
-            }
-        }
-
-        function fetchDockerLogs() {
-            // Simulating fetching logs from a local text file
-            const dockerLogs = `Team Alpha:
-Sending build context to Docker daemon  32.77kB
+        const dockerLogs = {
+            'Team Alpha': `
+            Sending build context to Docker daemon  32.77kB
 Step 1/10 : FROM python:3.10-slim-bookworm
  ---> 61b0911887c0
 Step 2/10 : RUN apt update -y
@@ -748,19 +709,46 @@ Run time statistics:
 Experiment Count: 0
 
  Cerberus exited with an error after 0.000 minutes
+            `,
+            'Team Beta': `Team Beta Docker log line 1\nTeam Beta Docker log line 2\nTeam Beta Docker log line 3`,
+            'Team Gamma': `Team Gamma Docker log line 1\nTeam Gamma Docker log line 2\nTeam Gamma Docker log line 3`
+        };
 
-Team Beta:
-Docker log line 1
-Docker log line 2
-Docker log line 3
+        function updateFuzzerStatus() {
+            const fuzzerStatusDiv = document.getElementById('fuzzer-status');
+            fuzzerStatusDiv.innerHTML = fuzzerStatus.map(status => `
+                <p><strong>${status.team}:</strong> ${status.status}</p>
+                <button class="show-logs-btn" onclick="showDockerLogs('${status.team}')">Show ${status.team} Logs</button>
+            `).join('');
+        }
 
-Team Gamma:
-Docker log line 1
-Docker log line 2
-Docker log line 3
-`;
+        function updateCommitInfo() {
+            const commitInfoDiv = document.getElementById('commit-info');
+            commitInfoDiv.innerHTML = commitInfo.map(commit => `<p><strong>${commit.team}:</strong> ${commit.commit}</p>`).join('');
+        }
+
+        function updateSolvedBugs() {
+            const solvedBugsDiv = document.getElementById('solved-bugs');
+            solvedBugsDiv.innerHTML = Object.keys(solvedBugs).map(team => `
+                <div class="team">
+                    <h3>${team}</h3>
+                    <div class="bugs">
+                        ${solvedBugs[team].map(bug => `<div class="bug">${bug}</div>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateStatus() {
+            updateFuzzerStatus();
+            updateCommitInfo();
+            updateSolvedBugs();
+        }
+
+        function showDockerLogs(team) {
             const dockerLogsDiv = document.getElementById('docker-logs');
-            dockerLogsDiv.innerHTML = dockerLogs;
+            dockerLogsDiv.innerHTML = `<h3>${team} Docker Logs</h3><pre>${dockerLogs[team]}</pre>`;
+            dockerLogsDiv.style.display = 'block';
         }
 
         // Simulate real-time updates
