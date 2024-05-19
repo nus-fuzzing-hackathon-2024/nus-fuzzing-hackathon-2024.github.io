@@ -56,6 +56,9 @@
             overflow: hidden;
         }
         .team h3 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin: 0;
             padding: 10px;
             background: #4a90e2;
@@ -79,18 +82,17 @@
             border-bottom: none;
         }
         .show-logs-btn {
-            display: block;
-            margin: 10px 0;
-            padding: 10px 20px;
-            background-color: #4a90e2;
-            color: white;
-            border: none;
+            padding: 5px 10px;
+            background-color: white;
+            color: #4a90e2;
+            border: 1px solid #4a90e2;
             border-radius: 5px;
             cursor: pointer;
-            text-align: center;
+            font-size: 0.9em;
         }
         .show-logs-btn:hover {
-            background-color: #357abd;
+            background-color: #4a90e2;
+            color: white;
         }
         .rank-list {
             padding: 15px;
@@ -191,9 +193,11 @@
             const fuzzerStatusDiv = document.getElementById('fuzzer-status');
             fuzzerStatusDiv.innerHTML = fuzzerStatus.map(status => `
                 <div class="team">
-                    <h3>${status.team}</h3>
+                    <h3>
+                        ${status.team}
+                        <button class="show-logs-btn" data-team="${status.team}">Show Logs</button>
+                    </h3>
                     <p><strong>Status:</strong> ${status.status}</p>
-                    <button class="show-logs-btn" data-team="${status.team}">Show ${status.team} Logs</button>
                 </div>
             `).join('');
 
