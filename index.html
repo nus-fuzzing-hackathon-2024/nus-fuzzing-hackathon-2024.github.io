@@ -142,7 +142,7 @@
 
             // Add event listeners to the buttons
             document.querySelectorAll('.show-logs-btn').forEach(button => {
-                button.addEventListener('click', () => showDockerLogs(button.dataset.team, dockerLogs));
+                button.addEventListener('click', () => toggleDockerLogs(button.dataset.team, dockerLogs));
             });
         }
 
@@ -158,10 +158,14 @@
             `).join('');
         }
 
-        function showDockerLogs(team, dockerLogs) {
+        function toggleDockerLogs(team, dockerLogs) {
             const logsDiv = document.getElementById(`${team}-logs`);
-            logsDiv.innerHTML = `<pre>${dockerLogs[team]}</pre>`;
-            logsDiv.style.display = 'block';
+            if (logsDiv.style.display === 'block') {
+                logsDiv.style.display = 'none';
+            } else {
+                logsDiv.innerHTML = `<pre>${dockerLogs[team]}</pre>`;
+                logsDiv.style.display = 'block';
+            }
         }
 
         async function updateStatus() {
