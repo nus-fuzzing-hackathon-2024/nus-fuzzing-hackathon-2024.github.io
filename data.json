@@ -4,11 +4,6 @@
         {"team": "Team Beta", "status": "Success"},
         {"team": "Team Gamma", "status": "Failed"}
     ],
-    "commitInfo": [
-        {"team": "Team Alpha", "commit": "Added new fuzzing strategy"},
-        {"team": "Team Beta", "commit": "Fixed issue with input parser"},
-        {"team": "Team Gamma", "commit": "Improved performance of fuzzer"}
-    ],
     "solvedBugs": {
         "Team Alpha": [
             "Bug 1: Null pointer dereference in XYZ module",
