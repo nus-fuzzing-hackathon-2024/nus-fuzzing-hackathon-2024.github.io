@@ -11,8 +11,9 @@
             background-color: #f0f2f5;
             color: #333;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
+            min-height: 100vh;
         }
         .container {
             max-width: 800px;
@@ -48,32 +49,33 @@
             background: #f9f9f9;
             box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
         }
-        .bug {
-            padding: 8px;
-            margin: 5px 0;
-            border-bottom: 1px solid #ddd;
-        }
         .team {
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
         }
         .team h3 {
             margin: 0;
             padding: 10px;
             background: #4a90e2;
             color: white;
-            border-radius: 5px 5px 0 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .team p {
+            margin: 0;
+            padding: 10px;
+            background: #f9f9f9;
         }
         .team .bugs {
-            border: 1px solid #ddd;
-            border-radius: 0 0 5px 5px;
-            border-top: none;
             padding: 10px;
+            background: #fff;
         }
-        .team .bug {
+        .bug {
             border-bottom: 1px solid #eee;
             padding: 5px 0;
         }
-        .team .bug:last-child {
+        .bug:last-child {
             border-bottom: none;
         }
         .docker-logs {
@@ -81,6 +83,9 @@
             white-space: pre-wrap;
             overflow-y: auto;
             max-height: 300px;
+            padding: 10px;
+            background: #fff;
+            border-top: 1px solid #ddd;
         }
         .show-logs-btn {
             display: block;
@@ -93,6 +98,9 @@
             cursor: pointer;
             text-align: center;
         }
+        .show-logs-btn:hover {
+            background-color: #357abd;
+        }
     </style>
 </head>
 <body>
@@ -104,13 +112,6 @@
             <h2>Fuzzer Building Status & Docker Logs</h2>
             <div id="fuzzer-status" class="fuzzer-status">
                 <!-- Fuzzer status and Docker logs will be updated here -->
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>Latest Commit Information</h2>
-            <div id="commit-info" class="commit-info">
-                <!-- Commit information will be updated here -->
             </div>
         </div>
 
@@ -132,7 +133,8 @@
             const fuzzerStatusDiv = document.getElementById('fuzzer-status');
             fuzzerStatusDiv.innerHTML = fuzzerStatus.map(status => `
                 <div class="team">
-                    <p><strong>${status.team}:</strong> ${status.status}</p>
+                    <h3>${status.team}</h3>
+                    <p><strong>Status:</strong> ${status.status}</p>
                     <button class="show-logs-btn" data-team="${status.team}">Show ${status.team} Logs</button>
                     <div class="docker-logs" id="${status.team}-logs"></div>
                 </div>
@@ -142,11 +144,6 @@
             document.querySelectorAll('.show-logs-btn').forEach(button => {
                 button.addEventListener('click', () => showDockerLogs(button.dataset.team, dockerLogs));
             });
-        }
-
-        function updateCommitInfo(commitInfo) {
-            const commitInfoDiv = document.getElementById('commit-info');
-            commitInfoDiv.innerHTML = commitInfo.map(commit => `<p><strong>${commit.team}:</strong> ${commit.commit}</p>`).join('');
         }
 
         function updateSolvedBugs(solvedBugs) {
@@ -163,14 +160,13 @@
 
         function showDockerLogs(team, dockerLogs) {
             const logsDiv = document.getElementById(`${team}-logs`);
-            logsDiv.innerHTML = `<h3>${team} Docker Logs</h3><pre>${dockerLogs[team]}</pre>`;
+            logsDiv.innerHTML = `<pre>${dockerLogs[team]}</pre>`;
             logsDiv.style.display = 'block';
         }
 
         async function updateStatus() {
             const data = await fetchData();
             updateFuzzerStatus(data.fuzzerStatus, data.dockerLogs);
-            updateCommitInfo(data.commitInfo);
             updateSolvedBugs(data.solvedBugs);
         }
 
