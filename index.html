@@ -1,65 +1,148 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <title>Fuzzing Competition</title>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fuzzing Competition</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kimeiga/bahunya/dist/bahunya.min.css">
-  </head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-  <nav><ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="report-pdfs">Reports</a></li>
-  </ul></nav>
+        nav {
+            background-color: #333;
+            overflow: hidden;
+        }
 
-  <h1>Leaderboard</h1>
-  <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>tool</th>
-      <th>found</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Robsterbobster_Submission_v2</td>
-      <td>0.25</td>
-    </tr>
-    <tr>
-      <td>amrithaanilnus_fuzzer</td>
-      <td>0.00</td>
-    </tr>
-  </tbody>
-</table>
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: space-around;
+        }
 
-  <h1>Benchmarking Submissions</h1>
-  <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>repo</th>
-      <th>release name</th>
-      <th>release date</th>
-      <th>image built</th>
-      <th>running containers</th>
-      <th>finished containers</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Robsterbobster</td>
-      <td>Submission_v2</td>
-      <td>1699929824</td>
-      <td>False</td>
-      <td>39</td>
-      <td>0</td>
-    </tr>
-  </tbody>
-</table>
+        nav ul li {
+            float: left;
+        }
+
+        nav ul li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav ul li a:hover {
+            background-color: #111;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        table {
+            margin: 20px auto;
+            width: 80%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        footer a {
+            color: #00bfff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="report-pdfs">Reports</a></li>
+        </ul>
+    </nav>
+
+    <h1>Leaderboard</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Tool</th>
+                <th>Found</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Robsterbobster_Submission_v2</td>
+                <td>0.25</td>
+            </tr>
+            <tr>
+                <td>amrithaanilnus_fuzzer</td>
+                <td>0.00</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h1>Benchmarking Submissions</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Repo</th>
+                <th>Release Name</th>
+                <th>Release Date</th>
+                <th>Image Built</th>
+                <th>Running Containers</th>
+                <th>Finished Containers</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Robsterbobster</td>
+                <td>Submission_v2</td>
+                <td>1699929824</td>
+                <td>False</td>
+                <td>39</td>
+                <td>0</td>
+            </tr>
+        </tbody>
+    </table>
 
     <footer>
         <a href="#top">Back to top of page</a>
     </footer>
+</body>
+
 </html>
-    
