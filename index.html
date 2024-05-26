@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Fuzzing Competition</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kimeiga/bahunya/dist/bahunya.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,26 +16,26 @@
 
         nav {
             background-color: #343a40;
-            overflow: hidden;
         }
 
         nav ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
             display: flex;
             justify-content: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
         }
 
         nav ul li {
-            float: left;
+            margin: 0;
+            padding: 0;
         }
 
         nav ul li a {
+            color: #fff;
             display: block;
-            color: white;
-            text-align: center;
             padding: 14px 20px;
+            text-align: center;
             text-decoration: none;
         }
 
@@ -45,60 +44,38 @@
         }
 
         h1 {
-            text-align: center;
             color: #343a40;
-            margin-top: 20px;
-            margin-bottom: 20px;
             font-size: 2em;
+            margin: 20px 0;
+            text-align: center;
         }
 
         table {
-            margin: 20px auto;
-            width: 90%;
-            max-width: 1200px;
+            background-color: #fff;
             border-collapse: collapse;
-            background-color: white;
-        }
-
-        table, th, td {
             border: 1px solid #dee2e6;
+            margin: 20px auto;
+            max-width: 1200px;
+            width: 90%;
         }
 
         th, td {
-            padding: 12px;
-            text-align: center;
-            color: #343a40;
+            border: 1px solid #dee2e6;
+            padding: 12px 15px;
+            text-align: left;
         }
 
         th {
-            background-color: #e9ecef;
+            background-color: #343a40;
+            color: #fff;
         }
 
         tr:nth-child(even) {
-            background-color: #f8f9fa;
+            background-color: #f2f2f2;
         }
 
         tr:hover {
-            background-color: #e2e6ea;
-        }
-
-        footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #343a40;
-            color: white;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-        }
-
-        footer a {
-            color: #00bfff;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
+            background-color: #e9ecef;
         }
     </style>
 </head>
@@ -106,58 +83,39 @@
 <body>
     <nav>
         <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="report-pdfs">Reports</a></li>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
         </ul>
     </nav>
 
-    <h1>Leaderboard</h1>
+    <h1>Fuzzing Competition</h1>
+
     <table>
         <thead>
             <tr>
-                <th>Tool</th>
-                <th>Found</th>
+                <th>Rank</th>
+                <th>Team</th>
+                <th>Score</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>Robsterbobster_Submission_v2</td>
-                <td>0.25</td>
+                <td>1</td>
+                <td>Team Alpha</td>
+                <td>95</td>
             </tr>
             <tr>
-                <td>amrithaanilnus_fuzzer</td>
-                <td>0.00</td>
+                <td>2</td>
+                <td>Team Beta</td>
+                <td>89</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Team Gamma</td>
+                <td>85</td>
             </tr>
         </tbody>
     </table>
-
-    <h1>Benchmarking Submissions</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Repo</th>
-                <th>Release Name</th>
-                <th>Release Date</th>
-                <th>Image Built</th>
-                <th>Running Containers</th>
-                <th>Finished Containers</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Robsterbobster</td>
-                <td>Submission_v2</td>
-                <td>1699929824</td>
-                <td>False</td>
-                <td>39</td>
-                <td>0</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <footer>
-        <a href="#top">Back to top of page</a>
-    </footer>
 </body>
 
-</html>
