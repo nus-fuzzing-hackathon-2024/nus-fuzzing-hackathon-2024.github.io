@@ -1,287 +1,65 @@
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Fuzzing Hackathon Status</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f2f5;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 800px;
-            width: 100%;
-            padding: 20px;
-            margin: 20px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #4a90e2;
-            border-bottom: 2px solid #4a90e2;
-            padding-bottom: 10px;
-            text-align: center;
-        }
-        #clock {
-            font-size: 1.2em;
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .section {
-            margin-bottom: 20px;
-        }
-        .section h2 {
-            color: #4a90e2;
-            margin-bottom: 15px;
-        }
-        .fuzzer-status {
-            padding: 15px;
-            border-radius: 5px;
-            background: #f9f9f9;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        .team {
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-        .team h3 {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 0;
-            padding: 10px;
-            background: #4a90e2;
-            color: white;
-            border-bottom: 1px solid #ddd;
-        }
-        .team p {
-            margin: 0;
-            padding: 10px;
-            background: #f9f9f9;
-        }
-        .team .bugs {
-            padding: 10px;
-            background: #fff;
-        }
-        .bug {
-            border-bottom: 1px solid #eee;
-            padding: 5px 0;
-        }
-        .bug:last-child {
-            border-bottom: none;
-        }
-        .show-logs-btn {
-            padding: 5px 10px;
-            background-color: white;
-            color: #4a90e2;
-            border: 1px solid #4a90e2;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9em;
-        }
-        .show-logs-btn:hover {
-            background-color: #4a90e2;
-            color: white;
-        }
-        .rank-list {
-            padding: 15px;
-            border-radius: 5px;
-            background: #f9f9f9;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        .rank-list .team {
-            margin-bottom: 10px;
-            padding: 10px;
-            background: #fff;
-            border-radius: 5px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 600px;
-            border-radius: 10px;
-        }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .docker-logs-content {
-            white-space: pre-wrap;
-            overflow-y: auto;
-            max-height: 300px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Fuzzing Hackathon Real-time Status</h1>
-        <div id="clock"></div>
 
-        <div class="section">
-            <h2>Fuzzer Building Status & Docker Logs</h2>
-            <div id="fuzzer-status" class="fuzzer-status">
-                <!-- Fuzzer status and Docker logs will be updated here -->
-            </div>
-        </div>
+  <head>
+    <title>Fuzzing Competition</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kimeiga/bahunya/dist/bahunya.min.css">
+  </head>
 
-        <div class="section">
-            <h2>Solved Bugs</h2>
-            <div id="solved-bugs" class="solved-bugs">
-                <!-- Solved bugs will be listed here -->
-            </div>
-        </div>
+  <nav><ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="report-pdfs">Reports</a></li>
+  </ul></nav>
 
-        <div class="section">
-            <h2>Team Rankings</h2>
-            <div id="team-rankings" class="rank-list">
-                <!-- Team rankings will be updated here -->
-            </div>
-        </div>
-    </div>
+  <h1>Leaderboard</h1>
+  <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>tool</th>
+      <th>found</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Robsterbobster_Submission_v2</td>
+      <td>0.25</td>
+    </tr>
+    <tr>
+      <td>amrithaanilnus_fuzzer</td>
+      <td>0.00</td>
+    </tr>
+  </tbody>
+</table>
 
-    <!-- Modal for Docker Logs -->
-    <div id="dockerLogsModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 id="modal-team-name">Docker Logs</h2>
-            <div id="docker-logs-content" class="docker-logs-content"></div>
-        </div>
-    </div>
+  <h1>Benchmarking Submissions</h1>
+  <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>repo</th>
+      <th>release name</th>
+      <th>release date</th>
+      <th>image built</th>
+      <th>running containers</th>
+      <th>finished containers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Robsterbobster</td>
+      <td>Submission_v2</td>
+      <td>1699929824</td>
+      <td>False</td>
+      <td>39</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
 
-    <script>
-        async function fetchData() {
-            const response = await fetch('data.json');
-            return response.json();
-        }
-
-        function updateFuzzerStatus(fuzzerStatus, dockerLogs) {
-            const fuzzerStatusDiv = document.getElementById('fuzzer-status');
-            fuzzerStatusDiv.innerHTML = fuzzerStatus.map(status => `
-                <div class="team">
-                    <h3>
-                        ${status.team}
-                        <button class="show-logs-btn" data-team="${status.team}">Show Logs</button>
-                    </h3>
-                    <p><strong>Status:</strong> ${status.status}</p>
-                </div>
-            `).join('');
-
-            // Add event listeners to the buttons
-            document.querySelectorAll('.show-logs-btn').forEach(button => {
-                button.addEventListener('click', () => showDockerLogs(button.dataset.team, dockerLogs));
-            });
-        }
-
-        function updateSolvedBugs(solvedBugs) {
-            const solvedBugsDiv = document.getElementById('solved-bugs');
-            solvedBugsDiv.innerHTML = Object.keys(solvedBugs).map(team => `
-                <div class="team">
-                    <h3>${team} (${solvedBugs[team].length} bugs)</h3>
-                    <div class="bugs">
-                        ${solvedBugs[team].map(bug => `<div class="bug">${bug}</div>`).join('')}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function updateTeamRankings(solvedBugs) {
-            const teamRankingsDiv = document.getElementById('team-rankings');
-            const teamRankings = Object.keys(solvedBugs)
-                .map(team => ({ team, count: solvedBugs[team].length }))
-                .sort((a, b) => b.count - a.count);
-
-            teamRankingsDiv.innerHTML = teamRankings.map(rank => `
-                <div class="team">
-                    <p><strong>${rank.team}:</strong> ${rank.count} bugs solved</p>
-                </div>
-            `).join('');
-        }
-
-        function showDockerLogs(team, dockerLogs) {
-            const modal = document.getElementById('dockerLogsModal');
-            const modalContent = document.getElementById('docker-logs-content');
-            const modalTeamName = document.getElementById('modal-team-name');
-            
-            modalTeamName.textContent = `${team} Docker Logs`;
-            modalContent.textContent = dockerLogs[team];
-            modal.style.display = 'block';
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('dockerLogsModal');
-            modal.style.display = 'none';
-        }
-
-        async function updateStatus() {
-            const data = await fetchData();
-            updateFuzzerStatus(data.fuzzerStatus, data.dockerLogs);
-            updateSolvedBugs(data.solvedBugs);
-            updateTeamRankings(data.solvedBugs);
-        }
-
-        // Simulate real-time updates
-        setInterval(updateStatus, 5000); // Update every 5 seconds
-
-        // Initial update
-        updateStatus();
-
-        // Real-time clock
-        function updateClock() {
-            const now = new Date();
-            const clockDiv = document.getElementById('clock');
-            clockDiv.innerHTML = now.toLocaleTimeString();
-        }
-
-        // Update the clock every second
-        setInterval(updateClock, 1000);
-
-        // Initial clock update
-        updateClock();
-
-        // Modal close functionality
-        document.querySelector('.close').addEventListener('click', closeModal);
-
-        window.addEventListener('click', (event) => {
-            const modal = document.getElementById('dockerLogsModal');
-            if (event.target == modal) {
-                closeModal();
-            }
-        });
-    </script>
-</body>
+    <footer>
+        <a href="#top">Back to top of page</a>
+    </footer>
 </html>
+    
