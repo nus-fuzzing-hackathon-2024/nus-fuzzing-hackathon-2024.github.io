@@ -19,25 +19,25 @@ STDOUT vvvvvvvvvvvvvvvvvv
 #5 transferring context: 363B done
 #5 DONE 0.0s
 
-#6 [8/9] COPY *.py ./
+#6 [2/9] RUN apt update -y
 #6 CACHED
 
-#7 [3/9] RUN apt install -y git pkg-config libcairo-dev gcc
+#7 [8/9] COPY *.py ./
 #7 CACHED
 
-#8 [5/9] WORKDIR /home/participant
+#8 [7/9] RUN pip install -r requirements.txt
 #8 CACHED
 
-#9 [2/9] RUN apt update -y
+#9 [6/9] COPY requirements.txt requirements.txt
 #9 CACHED
 
-#10 [4/9] RUN useradd participant
+#10 [3/9] RUN apt install -y git pkg-config libcairo-dev gcc
 #10 CACHED
 
-#11 [6/9] COPY requirements.txt requirements.txt
+#11 [4/9] RUN useradd participant
 #11 CACHED
 
-#12 [7/9] RUN pip install -r requirements.txt
+#12 [5/9] WORKDIR /home/participant
 #12 CACHED
 
 #13 [9/9] COPY examples ./examples
